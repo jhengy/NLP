@@ -1,7 +1,7 @@
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 
 /**
@@ -9,26 +9,27 @@ import java.util.stream.Collectors;
  */
 public class NlpManager {
 
-    List<String> unprocessedString;
-    List<ProcessedMessage> processedMessages;
+    private List<Message> unprocessedMessage;
+    private List<ProcessedMessage> processedMessages;
 
     // driver test method
     public static void main(String[] args) {
         String test1 = "Britain has blockchain technology";
         String test2 = "I'm happy";
-        List<String> list = Arrays.asList(test1, test2);
-        NlpManager manager = new NlpManager(list);
-        System.out.println("highest scored message: \n" + manager.getHighestScoredMsg());
+        //List<Message> list = Arrays.asList(new Message(), test2);
+        //NlpManager manager = new NlpManager(list);
+        //System.out.println("highest scored message: \n" + manager.getHighestScoredMsg());
+        //System.out.println(manager.processedMessages);
 
     }
 
-    public NlpManager(List<String> unprocessedString) {
-        this.unprocessedString = unprocessedString;
+    public NlpManager(List<Message> unprocessedString) {
+        this.unprocessedMessage = unprocessedString;
         processMessages(unprocessedString);
     }
 
-    public void processMessages(List<String> l) {
-        this.processedMessages = unprocessedString.stream()
+    public void processMessages(List<Message> l) {
+        this.processedMessages = unprocessedMessage.stream()
                 .map(s -> new ProcessedMessage(s)).collect(Collectors.toList());
     }
 

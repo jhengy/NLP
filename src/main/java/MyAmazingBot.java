@@ -135,6 +135,7 @@ public class MyAmazingBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             long chat_id = update.getMessage().getChatId();
+            update.getMessage().getFrom().getUserName()
             Sentiment sentiment = null;
             try {
                 //sentiment = getSentiment(update.getMessage().getText());

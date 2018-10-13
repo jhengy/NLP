@@ -9,11 +9,13 @@ import com.google.cloud.language.v1.Sentiment;
 
 import java.util.List;
 import java.util.Map;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 // This is class encapsulating
 public class ProcessedMessage {
     // original text
     String text;
+    String sender;
 
     float overallScore;
     float overallMagnitude;
@@ -24,13 +26,15 @@ public class ProcessedMessage {
     public static void main(String[] args) {
         String test = "Britain has blockchain technology";
         String test1 = "I'm happy";
-        ProcessedMessage msg = new ProcessedMessage(test);
+        Message orginalMessage = new Message();
+        ProcessedMessage msg = new ProcessedMessage(orginalMessage);
         System.out.println(msg);
-        System.out.println(msg.entityListDescription);
+        //System.out.println(msg.entityListDescription);
     }
 
-    public ProcessedMessage(String text) {
-        this.text = text;
+    public ProcessedMessage(Message msg) {
+        this.text = msg.getText();
+        this.sender= msg.getFrom().getUserName();
         process();
     }
 
@@ -119,7 +123,9 @@ public class ProcessedMessage {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("original text: ")
+        builder.append("the sender: ")
+                .append(sender + "\n")
+                .append("original text: ")
                 .append(text + "\n")
                 .append(" the Overall score is: ")
                 .append(overallScore + "\n")
