@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -46,6 +47,13 @@ public class NlpManager {
     }
 
     public List<ProcessedMessage> getFilteredList(Predicate<ProcessedMessage> p) {
+        return processedMessages.stream()
+                .filter(m -> p.test(m))
+                .collect(Collectors.toList());
+    }
+
+    // return the top number of messages fulfilling the predicate, where order is defined by the comparator
+    public List<ProcessedMessage> getFilteredList(Predicate<ProcessedMessage> p, int number, Comparator<ProcessedMessage> orderPattern) {
         return processedMessages.stream()
                 .filter(m -> p.test(m))
                 .collect(Collectors.toList());

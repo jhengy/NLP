@@ -12,6 +12,7 @@ import com.google.cloud.language.v1.Sentiment;
 
 import java.util.Map;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendChatAction;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -135,7 +136,9 @@ public class MyAmazingBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
 
             long chat_id = update.getMessage().getChatId();
-            update.getMessage().getFrom().getUserName()
+
+            //System.out.println(update.getMessage().getFrom().getUserName()); // test if we can get the sender name
+
             Sentiment sentiment = null;
             try {
                 //sentiment = getSentiment(update.getMessage().getText());
@@ -153,7 +156,10 @@ public class MyAmazingBot extends TelegramLongPollingBot {
             // Set variables
             //String responseMessage = "Sentiment: " + sentiment.getScore() + ", " + sentiment.getMagnitude();
 
-            executeSendMessage(update.toString(), chat_id);
+            //executeSendMessage(update.toString(), chat_id);
+            if (chat_id != -306754120) {
+                executeSendMessage("<b> function() </b>", chat_id);
+            }
         }
     }
 
@@ -161,13 +167,19 @@ public class MyAmazingBot extends TelegramLongPollingBot {
     public void executeSendMessage(String message, Long chat_id) {
         SendMessage send = new SendMessage() // Create a message object object
                 .setChatId(chat_id)
-                .setText(message);
+                .setText(message)
+                .enableMarkdown(true)
+                .enableHtml(true)
+                .setParseMode("HTML");
+
+        SendChatAction
         try {
             execute(send); // Sending our message object to user
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
+
 
 
     @Override
